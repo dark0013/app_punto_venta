@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'punto-venta-material';
+  moduloMenu:any[]=[
+    {modulo:'INVENTARIO', submodulo:'Gestionar Inventario', ruta:'/inventario',icono:'favorite'},
+    {modulo:'VENTAS', submodulo:'Ventas', ruta:'/ventas',icono:'favorite'},
+    {modulo:'PROVEEDOR', submodulo:'Proveedor', ruta:'/ventas',icono:'favorite'}
+  ];
+  showFiller = false;
+  panelOpenState = false;
 }

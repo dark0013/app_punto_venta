@@ -1,0 +1,57 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* Agrega estilos a la etiqueta form */
+.example-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  /* Estilos para los campos de formulario */
+  .mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para las etiquetas de los campos */
+  .mat-label {
+    font-weight: bold;
+  }
+  
+  /* Estilos para los inputs y textareas */
+  .mat-input-element {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  /* Estilos específicos para las textareas */
+  textarea.mat-input-element {
+    resize: vertical; /* Permite cambiar el tamaño verticalmente */
+  }
+  
+  /* Estilos para las tablas dentro del formulario */
+  .example-full-width {
+    width: 100%;
+    margin-bottom: 15px;
+    border-collapse: collapse;
+  }
+  
+  .example-full-width td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Estilos para los hints (ayudas) al final de los campos */
+  .mat-hint {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  /* Estilos adicionales según tus necesidades */
+  

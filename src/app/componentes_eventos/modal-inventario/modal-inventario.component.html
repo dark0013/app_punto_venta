@@ -1,0 +1,89 @@
+<!-- <div>
+    <div>
+        <button (click)="back()" class="closeModal">X</button>
+    </div>
+    <div>
+        <p>Hola</p>
+    </div>
+</div>
+
+ -->
+
+
+<h1 mat-dialog-title>Gestionar Inventario</h1>
+<div mat-dialog-content>
+
+    <div fxLayout="row" fxLayoutGap="100px">
+        <mat-form-field class="example-full-width">
+            <mat-label>Codigo de Barra</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="50px">
+        <mat-form-field class="example-full-width">
+            <mat-label>nombre</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>marca</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="50px">
+
+
+        <mat-form-field class="example-full-width">
+            <mat-label>cantidad</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+
+        <mat-form-field class="example-full-width">
+            <mat-label>costo de registro</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="50px">
+        <mat-form-field class="example-full-width">
+            <mat-label>Minimo</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Maximo</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div>
+
+
+    <div fxLayout="row" fxLayoutGap="50px">
+
+        <mat-form-field class="example-full-width">
+            <mat-label>precio de venta</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>iva</mat-label>
+            <input matInput>
+        </mat-form-field>
+
+    </div>
+
+
+</div>
+<div mat-dialog-actions class="button-container" fxLayout="row" fxLayoutAlign="center center">
+    
+
+    <button mat-button mat-dialog-close mat-raised-button color="primary">Guardar</button>
+
+    <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn" (click)="back()"
+        class="closeModal">Cancelar</button>
+
+    <!--  <button mat-button mat-dialog-close>Guardar</button>
+    <button mat-button mat-dialog-close cdkFocusInitial>Cancelar</button> -->
+</div>
