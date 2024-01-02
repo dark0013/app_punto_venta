@@ -79,7 +79,7 @@
 <div mat-dialog-actions class="button-container" fxLayout="row" fxLayoutAlign="center center">
     
 
-    <button mat-button mat-dialog-close mat-raised-button color="primary">Guardar</button>
+    <button mat-button mat-dialog-close mat-raised-button color="primary" (click)="save()">Guardar</button>
 
     <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn" (click)="back()"
         class="closeModal">Cancelar</button>

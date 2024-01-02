@@ -31,10 +31,18 @@ export class ModalInventarioComponent implements OnInit {
   }
   save() {
     const nuevoInventario = new Inventario();
-
-    // this.dialogRef.close('Hola');
+    nuevoInventario.codigo_barra= this.txt_cod_barra; 
+    nuevoInventario.nombre= this.txt_nombre;
+    nuevoInventario.marca= this.txt_marca;
+    nuevoInventario.cantidad= this.txt_cantidad; 
+    nuevoInventario.minimo= this.txt_minimo;
+    nuevoInventario.maximo= this.txt_maximo; 
+    nuevoInventario.precio_registro= this.txt_cost_registro; 
+    nuevoInventario.precio_venta= this.txt_precio_venta; 
+    this.dialogRef.close(nuevoInventario);
   }
   back() {
-    this.dialogRef.close('');
+    //this.dialogRef.close('');
+    
   }
 }
