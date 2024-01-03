@@ -8,11 +8,17 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class InventarioServicesService {
-  private url: string = `${environment.HOST}/api/getAllInventario`;
+  private url: string = `${environment.HOST}/api/Inventario`;
 
   constructor(private http: HttpClient) { }
 
   getAllInventario() {
     return this.http.get<Inventario[]>(this.url);
   }
+
+  saveInventario(inventario: Inventario) {
+    return this.http.post(this.url, inventario);
+  }
+
+
 }
