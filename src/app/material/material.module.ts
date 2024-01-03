@@ -18,6 +18,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarModule,
+    MatSnackBarVerticalPosition,
+  } from '@angular/material/snack-bar';
+
 
 import { MatCardModule } from '@angular/material/card';
 @NgModule({
@@ -42,7 +49,7 @@ import { MatCardModule } from '@angular/material/card';
         MatGridListModule, 
         FlexLayoutModule, 
         MatCardModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,MatSnackBarModule,MatFormFieldModule, MatSelectModule, MatButtonModule
 
     ]
 })
