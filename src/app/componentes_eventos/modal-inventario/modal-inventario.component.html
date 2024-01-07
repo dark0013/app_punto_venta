@@ -1,66 +1,50 @@
-<!-- <div>
-    <div>
-        <button (click)="back()" class="closeModal">X</button>
-    </div>
-    <div>
-        <p>Hola</p>
-    </div>
-</div>
-
- -->
-
-
 <h1 mat-dialog-title>Gestionar Inventario</h1>
 <div mat-dialog-content>
 
     <div fxLayout="row" fxLayoutGap="100px">
         <mat-form-field class="example-full-width">
             <mat-label>Codigo de Barra</mat-label>
-            <input matInput [(ngModel)]="txt_cod_barra">
+            <input matInput [(ngModel)]="txt_cod_barra" maxlength="50">
         </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutGap="100px">
-        <mat-form-field class="example-full-width">
-            <mat-label>nombre</mat-label>
-            <input matInput [(ngModel)]="txt_nombre">
+        <mat-form-field>
+            <mat-label>Seleccione Producto</mat-label>
+            <mat-select [(value)]="txt_nombre">
+                <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor.producto">
+                    {{ proveedor.producto }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Seleccione la Marca</mat-label>
+            <mat-select [(value)]="txt_marca">
+                <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor.marca">
+                    {{ proveedor.marca }}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
     </div>
-
-    <div fxLayout="row" fxLayoutGap="50px">
-        <mat-form-field class="example-full-width">
-            <mat-label>marca</mat-label>
-            <input matInput [(ngModel)]="txt_marca">
-        </mat-form-field>
-    </div>
-
-    <mat-form-field>
-        <mat-label>Select an option</mat-label>
-        <mat-select [(value)]="selected">
-            <mat-option>None</mat-option>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
-        </mat-select>
-    </mat-form-field>
 
 
     <div fxLayout="row" fxLayoutGap="50px">
         <mat-form-field class="example-full-width">
             <mat-label>cantidad</mat-label>
-            <input matInput [(ngModel)]="txt_cantidad" (keypress)="soloNumeros($event)">
+            <input matInput [(ngModel)]="txt_cantidad" (keypress)="soloNumeros($event)" placeholder="0" maxlength="3">
         </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutGap="50px">
         <mat-form-field class="example-full-width">
             <mat-label>Minimo</mat-label>
-            <input matInput [(ngModel)]="txt_minimo" (keypress)="soloNumeros($event)">
+            <input matInput [(ngModel)]="txt_minimo" (keypress)="soloNumeros($event)" placeholder="0" maxlength="3">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
             <mat-label>Maximo</mat-label>
-            <input matInput [(ngModel)]="txt_maximo" (keypress)="soloNumeros($event)">
+            <input matInput [(ngModel)]="txt_maximo" (keypress)="soloNumeros($event)" placeholder="0" maxlength="3">
         </mat-form-field>
     </div>
 
@@ -68,19 +52,13 @@
     <div fxLayout="row" fxLayoutGap="50px">
         <mat-form-field class="example-full-width">
             <mat-label>costo de registro</mat-label>
-            <input matInput [(ngModel)]="txt_cost_registro" (keypress)="soloNumeros($event)">
+            <input matInput type="number" step="0.01" matNumber max="999999.99" [(ngModel)]="txt_cost_registro" (keypress)="soloNumeros($event)" (change)="formatearNumero();" placeholder="0.00" maxlength="14">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
             <mat-label>precio de venta</mat-label>
-            <input matInput [(ngModel)]="txt_precio_venta" (keypress)="soloNumeros($event)">
-        </mat-form-field>
-        <!-- 
-        <mat-form-field class="example-full-width">
-            <mat-label>iva</mat-label>
-            <input matInput [(ngModel)]="">
-        </mat-form-field> -->
-
+            <input matInput type="number" step="0.01" matNumber max="999999.99" [(ngModel)]="txt_precio_venta" (keypress)="soloNumeros($event)" (change)="formatearNumero();" placeholder="0.00" maxlength="14">
+        </mat-form-field>       
     </div>
 
 

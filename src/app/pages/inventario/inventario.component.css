@@ -33,3 +33,10 @@ section {
   justify-content: center;
   width: 120px;
 }
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+.ancho-amplio {
+  width: 300px;  
+  margin-right: 2%;
+}

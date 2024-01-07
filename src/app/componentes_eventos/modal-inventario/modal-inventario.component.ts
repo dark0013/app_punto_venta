@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Inventario } from 'src/app/model/InventarioModel.model';
+import { Proveedor } from 'src/app/model/ProveedoresModel.model';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { Inventario } from 'src/app/model/InventarioModel.model';
 export class ModalInventarioComponent implements OnInit {
   selected = 'option2';
   inventario: Inventario[] = [];
+  proveedores: Proveedor[] = [];
   txt_cod_barra: string = '';
   txt_nombre: string = '';
   txt_marca: string = '';
@@ -19,7 +21,7 @@ export class ModalInventarioComponent implements OnInit {
   txt_minimo: string = '0';
   txt_maximo: string = '0';
   txt_precio_venta: string = '0.00';
-  action:string= 'save';
+  action: string = 'save';
 
   constructor(
     public dialog: MatDialog,
@@ -30,6 +32,16 @@ export class ModalInventarioComponent implements OnInit {
   ngOnInit() {
     this.obtenerInformacion(this.data.data);
     this.action = this.data.action;
+    this.proveedores = this.data.dataProveedor;
+  }
+  formatearNumero(): void {
+    if (this.txt_cost_registro !== null || this.txt_precio_venta!== null) {
+      this.txt_cost_registro = parseFloat(this.txt_cost_registro).toFixed(2);
+      this.txt_precio_venta = parseFloat(this.txt_precio_venta).toFixed(2);
+    } else {
+      this.txt_cost_registro = null;
+      this.txt_precio_venta = null;
+    }
   }
 
   obtenerInformacion(data: Inventario) {
@@ -43,6 +55,7 @@ export class ModalInventarioComponent implements OnInit {
     this.txt_precio_venta = data.precio_venta;
   }
 
+  
   saveOrUpdate(action: string) {
     const nuevoInventario = new Inventario();
     nuevoInventario.codigo_barra = this.txt_cod_barra;

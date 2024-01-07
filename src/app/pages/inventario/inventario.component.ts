@@ -5,6 +5,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -17,29 +20,47 @@ import { MatDialog, } from '@angular/material/dialog';
 //import { Inject } from '@angular/core';
 import { ModalInventarioComponent } from 'src/app/componentes_eventos/modal-inventario/modal-inventario.component';
 import { InventarioServicesService } from 'src/app/services/inventario/inventario-services.service';
+import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
 import { Inventario } from 'src/app/model/InventarioModel.model';
+import { Proveedor } from 'src/app/model/ProveedoresModel.model';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.css'],
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatDividerModule],
+  imports: [ FormsModule, ReactiveFormsModule,MatInputModule,MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatDividerModule,MatCardModule,MatFormFieldModule],
 })
 
 export class InventarioComponent implements OnInit, OnDestroy {
+  filtro: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   displayedColumns: string[] = ['id', 'codigo_barra', 'nombre', 'marca', 'cantidad', 'minimo', 'maximo', 'precio_registro', 'precio_venta'];
   dataSource: MatTableDataSource<Inventario>;
   inventario: Inventario[] = [];
+  provedor: Proveedor[] = [];
   posicion: number;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  constructor(public dialog: MatDialog,
+    private inventarioServices: InventarioServicesService,
+    // @Inject(MAT_DIALOG_DATA) public data: any,
+    //public dialogRef: MatDialogRef<ModalInventarioComponent>,
+    private _snackBar: MatSnackBar,
+    private proveedorServices: ProveedorService
+  ) {
+    this.inventario = [];
+  }
+  aplicarFiltro() {
+    this.dataSource.filter = this.filtro.trim().toLowerCase();
+  }
   ngOnInit(): void {
     this.inventario = [];
     this.infoInventario();
+    this.infoProveedores();
 
   }
   ngOnDestroy(): void {
@@ -57,6 +78,15 @@ export class InventarioComponent implements OnInit, OnDestroy {
       }
     );
   }
+  infoProveedores() {
+    this.proveedorServices.getAllProveedor().subscribe(data => {
+      this.provedor = data;
+    },
+      (error: any) => {
+        this.openSnackBarError('Ocurrió un error. Por favor, inténtalo de nuevo.');
+      }
+    );
+  }
 
   obtenerElementoPosicion(posicion: number) {
     this.posicion = posicion;
@@ -65,14 +95,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.openDialogSearchProducts(elementoEliminado, 'update');
   }
 
-  constructor(public dialog: MatDialog,
-    private inventarioServices: InventarioServicesService,
-    // @Inject(MAT_DIALOG_DATA) public data: any,
-    //public dialogRef: MatDialogRef<ModalInventarioComponent>,
-    private _snackBar: MatSnackBar
-  ) {
-    this.inventario = [];
-  }
+
 
 
   openDialogSearchProducts(elemento: any, action: string) {
@@ -82,7 +105,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         action: action,
-        data: elemento
+        data: elemento,
+        dataProveedor:this.provedor
       },
     });
 
@@ -95,7 +119,6 @@ export class InventarioComponent implements OnInit, OnDestroy {
             this.infoInventario();
           },
             (error: any) => {
-              console.log(error.status);
               if (error.status.toString() == '500') {
                 this.openSnackBarError(Object.values(error.error).toString());
               } else {
@@ -105,14 +128,12 @@ export class InventarioComponent implements OnInit, OnDestroy {
           );
       } else if (result && result.action === 'update') {
         this.posicion = elemento.id;
-
-        this.inventarioServices.updateInventario(this.posicion, elemento)
+        this.inventarioServices.updateInventario(this.posicion,result.data)
           .subscribe(data => {
             this.openSnackBar(JSON.stringify(data));
             this.infoInventario();
           },
             (error: any) => {
-              console.log(error.status);
               if (error.status.toString() == '500' || '404') {
                 this.openSnackBarError(Object.values(error.error).toString());
               } else {
@@ -128,7 +149,6 @@ export class InventarioComponent implements OnInit, OnDestroy {
             this.infoInventario();
           },
             (error: any) => {
-              console.log(error.status);
               if (error.status.toString() == '500' || '404') {
                 this.openSnackBarError(Object.values(error.error).toString());
               } else {

@@ -13,12 +13,13 @@ import { InventarioComponent } from './pages/inventario/inventario.component';
 import { MaterialModule } from './material/material.module';
 import { ModalInventarioComponent } from './componentes_eventos/modal-inventario/modal-inventario.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { VentasComponent } from './pages/ventas/ventas.component';
+import { ModalProveedorComponent } from './modal-proveedor/modal-proveedor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModalInventarioComponent
+    ModalInventarioComponent,
+    ModalProveedorComponent
   ],
   imports: [
     BrowserModule,
