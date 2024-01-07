@@ -13,13 +13,16 @@ import { InventarioComponent } from './pages/inventario/inventario.component';
 import { MaterialModule } from './material/material.module';
 import { ModalInventarioComponent } from './componentes_eventos/modal-inventario/modal-inventario.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ModalProveedorComponent } from './modal-proveedor/modal-proveedor.component';
+import { VentasComponent } from './pages/ventas/ventas.component';
+import { ModalProveedorComponent } from './componentes_eventos/modal-proveedor/modal-proveedor.component';
+import { ProveedorComponent } from './pages/proveedor/proveedor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ModalInventarioComponent,
-    ModalProveedorComponent
+    ModalProveedorComponent,
+    ProveedorComponent
   ],
   imports: [
     BrowserModule,
