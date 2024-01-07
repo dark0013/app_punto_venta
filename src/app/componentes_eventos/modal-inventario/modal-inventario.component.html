@@ -20,30 +20,35 @@
         </mat-form-field>
     </div>
 
-    <div fxLayout="row" fxLayoutGap="50px">
+    <div fxLayout="row" fxLayoutGap="100px">
         <mat-form-field class="example-full-width">
             <mat-label>nombre</mat-label>
             <input matInput [(ngModel)]="txt_nombre">
         </mat-form-field>
+    </div>
 
+    <div fxLayout="row" fxLayoutGap="50px">
         <mat-form-field class="example-full-width">
             <mat-label>marca</mat-label>
             <input matInput [(ngModel)]="txt_marca">
         </mat-form-field>
     </div>
 
+    <mat-form-field>
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="selected">
+            <mat-option>None</mat-option>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
     <div fxLayout="row" fxLayoutGap="50px">
-
-
         <mat-form-field class="example-full-width">
             <mat-label>cantidad</mat-label>
             <input matInput [(ngModel)]="txt_cantidad" (keypress)="soloNumeros($event)">
-        </mat-form-field>
-
-
-        <mat-form-field class="example-full-width">
-            <mat-label>costo de registro</mat-label>
-            <input matInput [(ngModel)]="txt_cost_registro" (keypress)="soloNumeros($event)">
         </mat-form-field>
     </div>
 
@@ -61,6 +66,10 @@
 
 
     <div fxLayout="row" fxLayoutGap="50px">
+        <mat-form-field class="example-full-width">
+            <mat-label>costo de registro</mat-label>
+            <input matInput [(ngModel)]="txt_cost_registro" (keypress)="soloNumeros($event)">
+        </mat-form-field>
 
         <mat-form-field class="example-full-width">
             <mat-label>precio de venta</mat-label>
@@ -77,13 +86,15 @@
 
 </div>
 <div mat-dialog-actions class="button-container" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button mat-dialog-close mat-raised-button color="primary" (click)="saveOrUpdate('save')"
+        *ngIf="action !== 'update'">Guardar</button>
 
+    <button mat-button mat-dialog-close mat-raised-button color="accent" (click)="saveOrUpdate('delete')"
+        *ngIf="action !== 'save'">Eliminar</button>
 
-    <button mat-button mat-dialog-close mat-raised-button color="primary" (click)="save()">Guardar</button>
+    <button mat-button mat-dialog-close mat-raised-button color="primary" (click)="saveOrUpdate('update')"
+        *ngIf="action !== 'save'">Actualizar</button>
 
     <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn" (click)="back()"
         class="closeModal">Cancelar</button>
-
-    <!--  <button mat-button mat-dialog-close>Guardar</button>
-    <button mat-button mat-dialog-close cdkFocusInitial>Cancelar</button> -->
 </div>

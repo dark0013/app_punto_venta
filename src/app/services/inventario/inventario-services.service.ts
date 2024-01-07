@@ -20,5 +20,13 @@ export class InventarioServicesService {
     return this.http.post(this.url, inventario);
   }
 
+  updateInventario(id: number, inventario: Inventario) {
+    return this.http.put(`${this.url}/${id}`, inventario);
+  }
+
+  inactivarInventario(id: number) {
+    return this.http.delete(`${this.url}/${id}`);
+  }
+
 
 }
