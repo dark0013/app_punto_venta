@@ -21,8 +21,7 @@ import { ProveedorComponent } from './pages/proveedor/proveedor.component';
   declarations: [
     AppComponent,
     ModalInventarioComponent,
-    ModalProveedorComponent,
-    ProveedorComponent
+    ModalProveedorComponent
   ],
   imports: [
     BrowserModule,

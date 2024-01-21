@@ -1,1 +1,43 @@
-<p>modal-proveedor works!</p>
+<h1 mat-dialog-title>Gestionar Inventario</h1>
+<div mat-dialog-content>
+
+    <div fxLayout="row" fxLayoutGap="100px">
+        <mat-form-field class="example-full-width">
+            <mat-label>Marca</mat-label>
+            <input matInput [(ngModel)]="txt_marca" maxlength="50">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Producto</mat-label>
+            <input matInput [(ngModel)]="txt_producto" maxlength="50">
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="100px">
+        <mat-form-field class="example-full-width">
+            <mat-label>Proveedor</mat-label>
+            <input matInput [(ngModel)]="txt_proveedor" maxlength="50">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Contacto</mat-label>
+            <input matInput [(ngModel)]="txt_contacto" maxlength="50">
+        </mat-form-field>
+    </div>
+
+
+
+</div>
+<div mat-dialog-actions class="button-container" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button mat-dialog-close mat-raised-button color="primary" (click)="saveOrUpdate('save')"
+        *ngIf="action !== 'update'">Guardar</button>
+
+    <button mat-button mat-dialog-close mat-raised-button color="accent" (click)="saveOrUpdate('delete')"
+        *ngIf="action !== 'save'">Eliminar</button>
+
+    <button mat-button mat-dialog-close mat-raised-button color="primary" (click)="saveOrUpdate('update')"
+        *ngIf="action !== 'save'">Actualizar</button>
+
+    <button mat-raised-button mat-dialog-close cdkFocusInitial color="warn" (click)="back()"
+        class="closeModal">Cancelar</button>
+</div>

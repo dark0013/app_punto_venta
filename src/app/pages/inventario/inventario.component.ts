@@ -54,6 +54,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
   ) {
     this.inventario = [];
   }
+  
   aplicarFiltro() {
     this.dataSource.filter = this.filtro.trim().toLowerCase();
   }

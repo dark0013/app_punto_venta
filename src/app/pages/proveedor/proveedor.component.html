@@ -1,1 +1,87 @@
-<p>proveedor works!</p>
+<div class="contenedor">
+
+    <h4>PROVEEDOR</h4>
+    <mat-divider></mat-divider>
+
+    <!--   <mat-card style="margin-top: 10px; margin-bottom: 10px;">
+        <mat-card-header>
+            <mat-card-title>
+                Filtro de Busqueda
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            
+            <mat-form-field class="ancho-amplio">
+                <input matInput placeholder="Código"  [(ngModel)]="filtro">
+            </mat-form-field>
+            
+            <button mat-raised-button color="primary" style="margin-left: 10px; ">
+                <mat-icon>search</mat-icon>Buscar
+            </button>
+        </mat-card-content>
+    </mat-card> -->
+
+
+    <mat-card>
+        <mat-card-content>
+
+            <section>
+                <div class="example-button-row">
+                    <button mat-raised-button color="primary" (click)="openDialogSearchProducts({},'save')">
+                        <mat-icon>add</mat-icon>
+                        Nuevo
+                    </button>
+                </div>
+            </section>
+
+            <div class="mat-elevation-z1">
+                <table mat-table [dataSource]="dataSource" style="width: 1024px;">
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; let i = index" (click)="obtenerElementoPosicion(i)">
+                            {{element.id}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="marca">
+                        <th mat-header-cell *matHeaderCellDef> MARCA </th>
+                        <td mat-cell *matCellDef="let element; let i = index" (click)="obtenerElementoPosicion(i)">
+                            {{element.marca}} </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="producto">
+                        <th mat-header-cell *matHeaderCellDef> PRODUCTO </th>
+                        <td mat-cell *matCellDef="let element; let i = index" (click)="obtenerElementoPosicion(i)">
+                            {{element.producto}} </td>
+                    </ng-container>
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="proveedor">
+                        <th mat-header-cell *matHeaderCellDef> PROVEEDOR </th>
+                        <td mat-cell *matCellDef="let element; let i = index" (click)="obtenerElementoPosicion(i)">
+                            {{element.proveedor}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contacto">
+                        <th mat-header-cell *matHeaderCellDef> CONTACTO </th>
+                        <td mat-cell *matCellDef="let element; let i = index" (click)="obtenerElementoPosicion(i)">
+                            {{element.contacto}} </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>
