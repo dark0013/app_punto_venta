@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { PeriodicElement } from '../../model/PeriodicElement.model';
 import { VentasService } from '../../services/ventas.service';
 import { Subscription } from 'rxjs';
+import { Venta } from 'src/app/model/VentaModel.model';
 
 @Component({
   selector: 'app-ventas',
@@ -27,7 +28,7 @@ import { Subscription } from 'rxjs';
 
 export class VentasComponent implements OnInit, OnDestroy {
   codigoBarras: string = '';
-  displayedColumns: string[] = ['position', 'name', 'weight', 'precio_unitario', 'symbol'];
+  displayedColumns: string[] = ['codigo_barra', 'nombre_producto', 'cantidad', 'precio_unitario', 'precio_total'];
   dataSource: MatTableDataSource<PeriodicElement>;
   DatosSubscription: Subscription;
   valorTotal: number = 0;
@@ -61,11 +62,11 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   agregarNuevoElemento() {
     const nuevoElemento = {
-      position: '0994550193',
-      name: 'Hydrogen',
-      weight: 5,
-      symbol: 7,
-      precio_unitario: 10.00
+      codigo_barra: '0994550193',
+      nombre_producto: 'Hydrogen',
+      cantidad: 5,
+      precio_unitario: 10.00,
+      precio_total: 7,
     };
 
     this.ventasService.agregarElemento(nuevoElemento);
@@ -83,6 +84,29 @@ export class VentasComponent implements OnInit, OnDestroy {
     this.subTotalInput = this.ventasService.obtenerSumaTotal();
     this.TotalPagarInput = this.subTotalInput;
     this.vueltoInput = this.DineroInput - this.TotalPagarInput;
+  }
+
+  CobrarVenta() {
+    const data = 'data' in this.dataSource ? this.dataSource.data : this.dataSource;
+
+    // Imprimir por consola la información de la tabla en un objeto
+    const informacionTabla = data.map(row => ({
+      codigo_barra: row.codigo_barra,
+      nombre_producto: row.nombre_producto,
+      cantidad: row.cantidad,
+      precio_unitario: row.precio_unitario,
+      precio_total: row.precio_total
+    }));
+
+    const cobrarVenta = new Venta();
+    cobrarVenta.valorTotal = this.valorTotal;
+    cobrarVenta.subTotalInput = this.subTotalInput;
+    cobrarVenta.TotalPagarInput = this.TotalPagarInput;
+    cobrarVenta.DineroInput = this.DineroInput;
+    cobrarVenta.vueltoInput = this.vueltoInput;
+    cobrarVenta.infoArticulos = informacionTabla;
+
+    console.log(JSON.stringify(cobrarVenta));
   }
 }
 

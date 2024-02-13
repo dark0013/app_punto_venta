@@ -27,7 +27,7 @@ export class VentasService {
   eliminarElementoPosicion(posicion: number) {
     const datosActuales = this.datosSubject.value;
     const elementoEliminado = datosActuales[posicion];
-    this.sumaTotal -= elementoEliminado.symbol;
+    this.sumaTotal -= elementoEliminado.precio_total;
     const nuevosDatos = datosActuales.filter((elemento, index) => index !== posicion);
     this.datosSubject.next([...nuevosDatos]);
   }

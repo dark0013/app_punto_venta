@@ -1,7 +1,7 @@
 export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
+  codigo_barra:string
+  nombre_producto: string;
+  cantidad: number;
   precio_unitario: number;
-  symbol: number; 
+  precio_total: number; 
 }

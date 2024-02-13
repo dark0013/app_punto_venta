@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class InventarioServicesService {
-  private url: string = `${environment.HOST}/api/Inventario`;
+  private url: string = `${environment.HOST}/api/inventario`;
 
   constructor(private http: HttpClient) { }
 

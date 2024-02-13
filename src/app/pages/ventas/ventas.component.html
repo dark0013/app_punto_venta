@@ -26,28 +26,28 @@
     <br>
     <mat-card>
         <mat-card-content>
-            <div class="mat-elevation-z1" style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
+            <div class="mat-elevation-z1" style="overflow-x: auto; overflow-y: auto; max-height: 200px;">
                 <table mat-table [dataSource]="dataSource" style="width: 1024px;">
 
                     <!-- Position Column -->
-                    <ng-container matColumnDef="position">
+                    <ng-container matColumnDef="codigo_barra">
                         <th mat-header-cell *matHeaderCellDef>Código de Barra </th>
                         <td mat-cell *matCellDef="let element; let i = index" (click)="eliminarElementoPosicion(i)">
-                            {{element.position}}</td>
+                            {{element.codigo_barra}}</td>
                     </ng-container>
 
                     <!-- Name Column -->
-                    <ng-container matColumnDef="name">
+                    <ng-container matColumnDef="nombre_producto">
                         <th mat-header-cell *matHeaderCellDef> Producto </th>
                         <td mat-cell *matCellDef="let element; let i = index" (click)="eliminarElementoPosicion(i)">
-                            {{element.name}} </td>
+                            {{element.nombre_producto}} </td>
                     </ng-container>
 
                     <!-- Weight Column -->
-                    <ng-container matColumnDef="weight">
+                    <ng-container matColumnDef="cantidad">
                         <th mat-header-cell *matHeaderCellDef> Cantidad </th>
                         <td mat-cell *matCellDef="let element; let i = index" (click)="eliminarElementoPosicion(i)">
-                            {{element.weight}} </td>
+                            {{element.cantidad}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="precio_unitario">
@@ -56,11 +56,11 @@
                             {{element.precio_unitario}} </td>
                     </ng-container>
 
-                    <!-- Symbol Column -->
-                    <ng-container matColumnDef="symbol">
+                    <!-- precio_total Column -->
+                    <ng-container matColumnDef="precio_total">
                         <th mat-header-cell *matHeaderCellDef> Total </th>
                         <td mat-cell *matCellDef="let element; let i = index" (click)="eliminarElementoPosicion(i)">
-                            {{element.symbol}} </td>
+                            {{element.precio_total}} </td>
                         <mat-footer-cell *matFooterCellDef> Name Footer </mat-footer-cell>
                     </ng-container>
 
@@ -106,7 +106,7 @@
         </mat-card-content>
 
         <mat-card-actions class="align-right">
-            <button mat-raised-button color="primary" style="margin-right: 1%;">Realizar Pago</button>
+            <button mat-raised-button color="primary" style="margin-right: 1%;" (click)="CobrarVenta();">Realizar Pago</button>
             <button mat-raised-button color="warn">Cancelar</button>
         </mat-card-actions>
     </mat-card>
