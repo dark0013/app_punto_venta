@@ -16,6 +16,7 @@ import { PeriodicElement } from '../../model/PeriodicElement.model';
 import { VentasService } from '../../services/ventas.service';
 import { Subscription } from 'rxjs';
 import { Venta } from 'src/app/model/VentaModel.model';
+import { PagoVentasService } from 'src/app/services/ventas/pago-ventas.service';
 
 @Component({
   selector: 'app-ventas',
@@ -40,7 +41,8 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private ventasService: VentasService) { }
+  constructor(private ventasService: VentasService,
+    private pagarVenta: PagoVentasService) { }
 
   ngOnInit() {
     this.DatosSubscription = this.ventasService.tusDatos$.subscribe(data => {
@@ -105,6 +107,16 @@ export class VentasComponent implements OnInit, OnDestroy {
     cobrarVenta.DineroInput = this.DineroInput;
     cobrarVenta.vueltoInput = this.vueltoInput;
     cobrarVenta.infoArticulos = informacionTabla;
+
+
+    this.pagarVenta.savePagoVentas(cobrarVenta).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
     console.log(JSON.stringify(cobrarVenta));
   }
