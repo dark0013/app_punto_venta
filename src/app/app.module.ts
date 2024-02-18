@@ -16,21 +16,27 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { VentasComponent } from './pages/ventas/ventas.component';
 import { ModalProveedorComponent } from './componentes_eventos/modal-proveedor/modal-proveedor.component';
 import { ProveedorComponent } from './pages/proveedor/proveedor.component';
+import { LoadingComponent } from './componentes_eventos/loading/loading.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ModalInventarioComponent,
-    ModalProveedorComponent
+    ModalProveedorComponent,
+
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule ,
+    MaterialModule,
     MatDialogModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

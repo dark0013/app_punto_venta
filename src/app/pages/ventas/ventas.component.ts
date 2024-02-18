@@ -17,6 +17,9 @@ import { VentasService } from '../../services/ventas.service';
 import { Subscription } from 'rxjs';
 import { Venta } from 'src/app/model/VentaModel.model';
 import { PagoVentasService } from 'src/app/services/ventas/pago-ventas.service';
+import { LoadingComponent } from '../../componentes_eventos/loading/loading.component'; // Importa LoadingComponent
+import { InventarioServicesService } from 'src/app/services/inventario/inventario-services.service';
+
 
 @Component({
   selector: 'app-ventas',
@@ -28,6 +31,9 @@ import { PagoVentasService } from 'src/app/services/ventas/pago-ventas.service';
 })
 
 export class VentasComponent implements OnInit, OnDestroy {
+  pagoCumplido: boolean = true;
+  loading: boolean = false;
+
   codigoBarras: string = '';
   displayedColumns: string[] = ['codigo_barra', 'nombre_producto', 'cantidad', 'precio_unitario', 'precio_total'];
   dataSource: MatTableDataSource<PeriodicElement>;
@@ -35,18 +41,20 @@ export class VentasComponent implements OnInit, OnDestroy {
   valorTotal: number = 0;
   subTotalInput: number = 0;
   TotalPagarInput: number = 0;
-  DineroInput: number = 0;
-  vueltoInput: number = 0;
+  DineroInput: number;
+  vueltoInput: number;
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private ventasService: VentasService,
+    private inventario: InventarioServicesService,
     private pagarVenta: PagoVentasService) { }
 
   ngOnInit() {
     this.DatosSubscription = this.ventasService.tusDatos$.subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
+      this.converitDecimal(this.subTotalInput);
     });
 
     this.dataSource.paginator = this.paginator;
@@ -57,35 +65,90 @@ export class VentasComponent implements OnInit, OnDestroy {
   }
 
   leerCodigoDeBarras() {
-    console.log('Código de Barras escaneado:', this.codigoBarras);
-    this.agregarNuevoElemento();
-    this.codigoBarras = '';
+    this.inventario.getAllInventarioxCodigo(this.codigoBarras).subscribe(data => {
+
+      data.map(elemtos => {
+        this.agregarNuevoElemento(elemtos.codigo_barra, elemtos.nombre, parseFloat(elemtos.precio_venta));
+      });
+
+      this.codigoBarras = '';
+    }, error => {
+      console.log(error);
+    });
   }
 
-  agregarNuevoElemento() {
+  asignarTotal(cantidad: number, element: any) {
+    let precio_unitario = parseFloat(element.precio_unitario);
+    let precio_total = cantidad * precio_unitario;
+    element.precio_total = precio_total.toFixed(2);
+    //console.log(element.precio_total)
+    this.actualizarTotalizado();
+  }
+
+
+  actualizarTotalizado() {
+    let total = 0;
+
+    const data = 'data' in this.dataSource ? this.dataSource.data : this.dataSource;
+
+    const informacionTabla = data.map(row => ({
+      precio_total: row.precio_total !== undefined && row.precio_total !== null ? Number(row.precio_total) : 0
+    }));
+
+    console.log("Total:", informacionTabla);
+
+    for (let i = 0; i < informacionTabla.length; i++) {
+      total += informacionTabla[i].precio_total;
+    }
+
+    this.subTotalInput = total;
+    this.TotalPagarInput = this.subTotalInput;
+
+    if (Number(this.DineroInput) <= 0) {
+      this.vueltoInput = 0;
+    } else {
+      this.vueltoInput = Math.abs(this.DineroInput - this.TotalPagarInput);
+    }
+
+  }
+
+
+  converitDecimal(valor: number) {
+    return valor.toFixed(2);
+  }
+
+
+
+  agregarNuevoElemento(codigo_barra: string, nombre_producto: string, precio_unitario: number) {
     const nuevoElemento = {
-      codigo_barra: '0994550193',
-      nombre_producto: 'Hydrogen',
-      cantidad: 5,
-      precio_unitario: 10.00,
-      precio_total: 7,
+      codigo_barra: codigo_barra,
+      nombre_producto: nombre_producto,
+      //cantidad: 5,
+      precio_unitario: precio_unitario,
+      // precio_total: 7,
     };
 
     this.ventasService.agregarElemento(nuevoElemento);
     this.subTotalInput = this.ventasService.obtenerSumaTotal();
     this.TotalPagarInput = this.subTotalInput
-    this.vueltoInput = this.DineroInput - this.TotalPagarInput;
+    this.vueltoInput = Math.abs(this.DineroInput - this.TotalPagarInput);
   }
 
   vueltoCobro() {
     this.vueltoInput = this.DineroInput - this.TotalPagarInput;
+
+    if (this.TotalPagarInput > this.DineroInput) {
+      alert('El valor no cumple con el monto del pago');
+      this.vueltoInput = 0;
+      this.pagoCumplido = true;
+    } else {
+      this.pagoCumplido = false;
+    }
   }
 
   eliminarElementoPosicion(posicion: number) {
     this.ventasService.eliminarElementoPosicion(posicion);
-    this.subTotalInput = this.ventasService.obtenerSumaTotal();
-    this.TotalPagarInput = this.subTotalInput;
-    this.vueltoInput = this.DineroInput - this.TotalPagarInput;
+    this.actualizarTotalizado();
   }
 
   CobrarVenta() {
@@ -118,7 +181,6 @@ export class VentasComponent implements OnInit, OnDestroy {
       }
     );
 
-    console.log(JSON.stringify(cobrarVenta));
   }
 }
 

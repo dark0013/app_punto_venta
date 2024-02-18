@@ -12,12 +12,12 @@
                         (change)="leerCodigoDeBarras()" autofocus>
                     <span matTextPrefix>&nbsp;</span>
                 </mat-form-field>
-
-                <button mat-button style="margin-left: 10px;" (click)=" agregarNuevoElemento()">
+                <!-- 
+                <button mat-button style="margin-left: 10px;" (click)=" leerCodigoDeBarras()">
                     <mat-icon>
                         search
                     </mat-icon>
-                </button>
+                </button> -->
             </div>
 
         </mat-card-content>
@@ -46,8 +46,10 @@
                     <!-- Weight Column -->
                     <ng-container matColumnDef="cantidad">
                         <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-                        <td mat-cell *matCellDef="let element; let i = index" (click)="eliminarElementoPosicion(i)">
-                            {{element.cantidad}} </td>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <input type="number" [(ngModel)]="element.cantidad"
+                                (change)="asignarTotal(element.cantidad,element);" min="0" max="99" value="0">
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="precio_unitario">
@@ -78,35 +80,32 @@
                 <mat-form-field floatLabel="always" style="width: 25%;">
                     <mat-label>SubTotal</mat-label>
                     <input matInput type="number" class="example-right-align" placeholder="0"
-                        [(ngModel)]="subTotalInput">
-                    <span matTextPrefix>$&nbsp;</span>
-                    <span matTextSuffix>.00</span>
+                        [(ngModel)]="subTotalInput"  readonly="true">
+                   
                 </mat-form-field>
                 <mat-form-field floatLabel="always" style="width: 25%;">
                     <mat-label>Total a Pagar</mat-label>
                     <input matInput type="number" class="example-right-align" placeholder="0"
-                        [(ngModel)]="TotalPagarInput">
-                    <span matTextPrefix>$&nbsp;</span>
-                    <span matTextSuffix>.00</span>
+                        [(ngModel)]="TotalPagarInput" readonly="true">
+                  
                 </mat-form-field>
                 <mat-form-field floatLabel="always" style="width: 25%;">
                     <mat-label>Dinero Recibido</mat-label>
                     <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="DineroInput"
                         (change)="vueltoCobro()">
-                    <span matTextPrefix>$&nbsp;</span>
-                    <span matTextSuffix>.00</span>
                 </mat-form-field>
+
                 <mat-form-field floatLabel="always" style="width: 25%;">
                     <mat-label>Vuelto</mat-label>
-                    <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="vueltoInput">
-                    <span matTextPrefix>$&nbsp;</span>
-                    <span matTextSuffix>.00</span>
+                    <input matInput type="number" class="example-right-align" placeholder="0"  [(ngModel)]="vueltoInput" readonly="true">
+                   
                 </mat-form-field>
             </div>
         </mat-card-content>
 
         <mat-card-actions class="align-right">
-            <button mat-raised-button color="primary" style="margin-right: 1%;" (click)="CobrarVenta();">Realizar Pago</button>
+            <button mat-raised-button color="primary" style="margin-right: 1%;" [disabled]="pagoCumplido"  (click)="CobrarVenta();">Realizar
+                Pago</button>
             <button mat-raised-button color="warn">Cancelar</button>
         </mat-card-actions>
     </mat-card>

@@ -9,11 +9,15 @@ import { environment } from 'src/environments/environment';
 })
 export class InventarioServicesService {
   private url: string = `${environment.HOST}/api/inventario`;
+  private url_inventarioventa: string = `${environment.HOST}/api/inventarioventa`;
 
   constructor(private http: HttpClient) { }
 
   getAllInventario() {
     return this.http.get<Inventario[]>(this.url);
+  }
+  getAllInventarioxCodigo(codigo:string) {
+    return this.http.get<Inventario[]>(`${this.url_inventarioventa}/${codigo}`);
   }
 
   saveInventario(inventario: Inventario) {

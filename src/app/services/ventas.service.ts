@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PeriodicElement } from '../model/PeriodicElement.model';
+import {VentasComponent} from '../pages/ventas/ventas.component'
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class VentasService {
   constructor() { }
 
   agregarElemento(nuevoElemento: any) {
+   // console.log(nuevoElemento);
     const datosActuales = this.datosSubject.value;
     this.datosSubject.next([...datosActuales, nuevoElemento]);
 
@@ -30,5 +32,6 @@ export class VentasService {
     this.sumaTotal -= elementoEliminado.precio_total;
     const nuevosDatos = datosActuales.filter((elemento, index) => index !== posicion);
     this.datosSubject.next([...nuevosDatos]);
+
   }
 }
