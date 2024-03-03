@@ -109,7 +109,6 @@ export class CategoriaComponent {
     this.posicion = posicion;
     const datosActuales = this.categoria;
     const elementoEliminado = datosActuales[posicion];
-    console.log(posicion);
     this.openDialogSearchProducts(elementoEliminado, 'update');
   }
 
@@ -138,7 +137,7 @@ export class CategoriaComponent {
               if (error.status.toString() == '500') {
                 this.openSnackBarError(Object.values(error.error).toString());
               } else {
-                this.openSnackBarError('Ocurrió un error al guardar el proveedor. Por favor, inténtalo de nuevo.');
+                this.openSnackBarError('Ocurrió un error al guardar. Por favor, inténtalo de nuevo.');
               }
             }
           );
@@ -153,7 +152,7 @@ export class CategoriaComponent {
               if (error.status.toString() == '500' || '404') {
                 this.openSnackBarError(Object.values(error.error).toString());
               } else {
-                this.openSnackBarError('Ocurrió un error al actualizar el proveedor. Por favor, inténtalo de nuevo.');
+                this.openSnackBarError('Ocurrió un error al actualizar. Por favor, inténtalo de nuevo.');
               }
             })
       } else if (result && result.action === 'delete') {
@@ -168,7 +167,7 @@ export class CategoriaComponent {
               if (error.status.toString() == '500' || '404') {
                 this.openSnackBarError(Object.values(error.error).toString());
               } else {
-                this.openSnackBarError('Ocurrió un error al elimiar el proveedor. Por favor, inténtalo de nuevo.');
+                this.openSnackBarError('Ocurrió un error al elimiar. Por favor, inténtalo de nuevo.');
               }
             })
       }

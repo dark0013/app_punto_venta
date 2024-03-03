@@ -16,7 +16,7 @@
     <div fxLayout="row" fxLayoutGap="100px">
         <mat-form-field class="example-full-width">
             <mat-label>Categorias</mat-label>
-            <input matInput [(ngModel)]="txt_categorias" maxlength="50">
+            <input matInput [(ngModel)]="txt_categorias" maxlength="50" (keydown)="soloTexto($event)">
         </mat-form-field>
 
         <!-- <mat-form-field class="example-full-width">

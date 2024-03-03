@@ -17,6 +17,7 @@ export class ModalProveedorComponent implements OnInit {
   txt_producto: string = '';
   txt_proveedor: string = '';
   txt_contacto: string = '';
+  isLoading:true;
   
   action: string = 'save';
 
@@ -36,7 +37,6 @@ export class ModalProveedorComponent implements OnInit {
 
 
   obtenerInformacion(data: Proveedor) {
-    console.log(data);
     this.txt_marca = data.marca;
    // this.txt_producto = data.producto;
     this.txt_proveedor = data.proveedor;
@@ -74,6 +74,31 @@ export class ModalProveedorComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+
+
+  soloTexto(event: KeyboardEvent) {
+    // Permitir las teclas de control como Enter, Flechas, etc.
+    if ([46, 8, 9, 27, 13].indexOf(event.keyCode) !== -1 ||
+      // Permitir: Ctrl+A
+      (event.keyCode === 65 && (event.ctrlKey || event.metaKey)) ||
+      // Permitir: Ctrl+C
+      (event.keyCode === 67 && (event.ctrlKey || event.metaKey)) ||
+      // Permitir: Ctrl+V
+      (event.keyCode === 86 && (event.ctrlKey || event.metaKey)) ||
+      // Permitir: Ctrl+X
+      (event.keyCode === 88 && (event.ctrlKey || event.metaKey)) ||
+      // Permitir: home, end, left, right
+      (event.keyCode >= 35 && event.keyCode <= 39)) {
+      // No hacer nada, dejar que las teclas de control continúen su curso
+      return;
+    }
+    // Asegurarse de que no es un número
+    if ((event.shiftKey || (event.keyCode < 65 || event.keyCode > 90)) &&
+      (event.keyCode < 96 || event.keyCode > 105)) {
+      event.preventDefault();
     }
   }
 }

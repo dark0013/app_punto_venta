@@ -48,6 +48,8 @@ export class ModalInventarioComponent implements OnInit {
     }
   }
 
+  
+
   obtenerInformacion(data: Inventario) {
     this.txt_cod_barra = data.codigo_barra;
     this.txt_nombre = data.nombre;
@@ -73,7 +75,6 @@ export class ModalInventarioComponent implements OnInit {
     nuevoInventario.precio_venta = this.txt_precio_venta;
     nuevoInventario.usuario_registro = 'ADMIN';
     nuevoInventario.usuario_actualiza = 'ADMIN';
-    console.log(JSON.stringify(nuevoInventario));
     this.dialogRef.close({ action: action, data: nuevoInventario });
   }
 
