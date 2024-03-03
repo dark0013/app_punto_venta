@@ -3,6 +3,7 @@ export class Inventario{
     codigo_barra:string; 
     nombre:string;
     marca:string;
+    categoria:string;
     cantidad:string; 
     minimo:string;
     maximo:string; 

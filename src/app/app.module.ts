@@ -18,6 +18,8 @@ import { ModalProveedorComponent } from './componentes_eventos/modal-proveedor/m
 import { ProveedorComponent } from './pages/proveedor/proveedor.component';
 import { LoadingComponent } from './componentes_eventos/loading/loading.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CategoriaComponent } from './pages/categoria/categoria.component';
+import { ModalCategoriaComponent } from './componentes_eventos/modal-categoria/modal-categoria.component';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AppComponent,
     ModalInventarioComponent,
     ModalProveedorComponent,
+    ModalCategoriaComponent,
+    LoadingComponent,
 
     
   ],

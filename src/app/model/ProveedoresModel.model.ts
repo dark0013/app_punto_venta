@@ -2,7 +2,6 @@ export class Proveedor {
 
     id: number;
     marca: string;
-    producto: string;
     proveedor: string;
     contacto: string;
     estado: string;

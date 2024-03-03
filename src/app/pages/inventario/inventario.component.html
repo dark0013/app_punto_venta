@@ -3,7 +3,7 @@
     <h4>INVENTARIO</h4>
     <mat-divider></mat-divider>
 
-  <!--   <mat-card style="margin-top: 10px; margin-bottom: 10px;">
+    <!--   <mat-card style="margin-top: 10px; margin-bottom: 10px;">
         <mat-card-header>
             <mat-card-title>
                 Filtro de Busqueda
@@ -31,8 +31,21 @@
                         <mat-icon>add</mat-icon>
                         Nuevo
                     </button>
+
+                </div>
+
+            </section>
+
+            <section>
+
+                <div class="example-button-row">
+                    <mat-form-field >
+                        <mat-label>Buscar</mat-label>
+                       <input matInput (input)="applyFilter($event)" placeholder="Ingrese el término de búsqueda">
+                    </mat-form-field>
                 </div>
             </section>
+
 
             <div class="mat-elevation-z1">
                 <table mat-table [dataSource]="dataSource" style="width: 1024px;">

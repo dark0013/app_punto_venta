@@ -95,8 +95,6 @@ export class VentasComponent implements OnInit, OnDestroy {
       precio_total: row.precio_total !== undefined && row.precio_total !== null ? Number(row.precio_total) : 0
     }));
 
-    console.log("Total:", informacionTabla);
-
     for (let i = 0; i < informacionTabla.length; i++) {
       total += informacionTabla[i].precio_total;
     }
@@ -173,8 +171,11 @@ export class VentasComponent implements OnInit, OnDestroy {
 
 
     this.pagarVenta.savePagoVentas(cobrarVenta).subscribe(
-      data => {
-        console.log(data);
+      (data: any) => {
+        alert(data.mensaje);
+        setTimeout(() => {
+          location.reload(); // Recarga la página
+        }, 1000);
       },
       error => {
         console.log(error);

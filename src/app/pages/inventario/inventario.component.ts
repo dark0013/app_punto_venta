@@ -5,9 +5,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -24,13 +24,23 @@ import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
 import { Inventario } from 'src/app/model/InventarioModel.model';
 import { Proveedor } from 'src/app/model/ProveedoresModel.model';
 import { MatInputModule } from '@angular/material/input';
+import { CategoriaService } from 'src/app/services/categoria/categoria.service';
+import { Categoria } from 'src/app/model/Categoria.model';
+import { LoadingComponent } from 'src/app/componentes_eventos/loading/loading.component';
+
 
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.css'],
   standalone: true,
-  imports: [ FormsModule, ReactiveFormsModule,MatInputModule,MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatDividerModule,MatCardModule,MatFormFieldModule],
+  template: `
+    <div *ngIf="loading">
+      <app-loading *ngIf="loading"></app-loading>
+    </div>
+    <!-- Tu contenido de inventario aquí -->
+  `,
+  imports: [FormsModule, ReactiveFormsModule, MatInputModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatDividerModule, MatCardModule, MatFormFieldModule],
 })
 
 export class InventarioComponent implements OnInit, OnDestroy {
@@ -41,7 +51,9 @@ export class InventarioComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<Inventario>;
   inventario: Inventario[] = [];
   provedor: Proveedor[] = [];
+  categorias: Categoria[] = [];
   posicion: number;
+  loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -50,11 +62,12 @@ export class InventarioComponent implements OnInit, OnDestroy {
     // @Inject(MAT_DIALOG_DATA) public data: any,
     //public dialogRef: MatDialogRef<ModalInventarioComponent>,
     private _snackBar: MatSnackBar,
-    private proveedorServices: ProveedorService
+    private proveedorServices: ProveedorService,
+    private categoriaServices: CategoriaService
   ) {
     this.inventario = [];
   }
-  
+
   aplicarFiltro() {
     this.dataSource.filter = this.filtro.trim().toLowerCase();
   }
@@ -62,10 +75,16 @@ export class InventarioComponent implements OnInit, OnDestroy {
     this.inventario = [];
     this.infoInventario();
     this.infoProveedores();
+    this.infoCategoriass();
 
   }
   ngOnDestroy(): void {
     this.dataSource.disconnect();
+  }
+
+  applyFilter(event: Event) {
+    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();// Eliminar espacios y convertir a minúsculas
+    this.dataSource.filter = value;
   }
 
   infoInventario() {
@@ -79,9 +98,21 @@ export class InventarioComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   infoProveedores() {
     this.proveedorServices.getAllProveedor().subscribe(data => {
       this.provedor = data;
+    },
+      (error: any) => {
+        this.openSnackBarError('Ocurrió un error. Por favor, inténtalo de nuevo.');
+      }
+    );
+  }
+
+  infoCategoriass() {
+    this.categoriaServices.obtenerCategoria().subscribe(data => {
+      console.log(data)
+      this.categorias = data;
     },
       (error: any) => {
         this.openSnackBarError('Ocurrió un error. Por favor, inténtalo de nuevo.');
@@ -107,7 +138,8 @@ export class InventarioComponent implements OnInit, OnDestroy {
       data: {
         action: action,
         data: elemento,
-        dataProveedor:this.provedor
+        dataProveedor: this.provedor,
+        dataCategorias: this.categorias
       },
     });
 
@@ -129,7 +161,7 @@ export class InventarioComponent implements OnInit, OnDestroy {
           );
       } else if (result && result.action === 'update') {
         this.posicion = elemento.id;
-        this.inventarioServices.updateInventario(this.posicion,result.data)
+        this.inventarioServices.updateInventario(this.posicion, result.data)
           .subscribe(data => {
             this.openSnackBar(JSON.stringify(data));
             this.infoInventario();

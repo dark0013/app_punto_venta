@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { Categoria } from 'src/app/model/Categoria.model';
 import { Inventario } from 'src/app/model/InventarioModel.model';
 import { Proveedor } from 'src/app/model/ProveedoresModel.model';
 
@@ -13,8 +14,10 @@ export class ModalInventarioComponent implements OnInit {
   selected = 'option2';
   inventario: Inventario[] = [];
   proveedores: Proveedor[] = [];
+  categorias: Categoria[] = [];
   txt_cod_barra: string = '';
   txt_nombre: string = '';
+  txt_categoria: string = '';
   txt_marca: string = '';
   txt_cantidad: string = '0';
   txt_cost_registro: string = '0.00';
@@ -33,6 +36,7 @@ export class ModalInventarioComponent implements OnInit {
     this.obtenerInformacion(this.data.data);
     this.action = this.data.action;
     this.proveedores = this.data.dataProveedor;
+    this.categorias = this.data.dataCategorias;
   }
   formatearNumero(): void {
     if (this.txt_cost_registro !== null || this.txt_precio_venta!== null) {
@@ -62,13 +66,14 @@ export class ModalInventarioComponent implements OnInit {
     nuevoInventario.nombre = this.txt_nombre;
     nuevoInventario.marca = this.txt_marca;
     nuevoInventario.cantidad = this.txt_cantidad;
+    nuevoInventario.categoria = this.txt_categoria;
     nuevoInventario.minimo = this.txt_minimo;
     nuevoInventario.maximo = this.txt_maximo;
     nuevoInventario.precio_registro = this.txt_cost_registro;
     nuevoInventario.precio_venta = this.txt_precio_venta;
     nuevoInventario.usuario_registro = 'ADMIN';
     nuevoInventario.usuario_actualiza = 'ADMIN';
-
+    console.log(JSON.stringify(nuevoInventario));
     this.dialogRef.close({ action: action, data: nuevoInventario });
   }
 

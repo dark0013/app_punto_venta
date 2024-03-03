@@ -18,57 +18,65 @@ import {
 //andy
 import { MatDialog, } from '@angular/material/dialog';
 //import { Inject } from '@angular/core';
-import { ModalInventarioComponent } from 'src/app/componentes_eventos/modal-inventario/modal-inventario.component';
-import { InventarioServicesService } from 'src/app/services/inventario/inventario-services.service';
-import { ProveedorService } from 'src/app/services/proveedor/proveedor.service';
-import { Inventario } from 'src/app/model/InventarioModel.model';
-import { Proveedor } from 'src/app/model/ProveedoresModel.model';
 import { MatInputModule } from '@angular/material/input';
-import { ModalProveedorComponent } from 'src/app/componentes_eventos/modal-proveedor/modal-proveedor.component';
+import { CategoriaService } from 'src/app/services/categoria/categoria.service';
+import { Categoria } from 'src/app/model/Categoria.model';
+import { ModalCategoriaComponent } from 'src/app/componentes_eventos/modal-categoria/modal-categoria.component';
 
 @Component({
-  selector: 'app-proveedor',
-  templateUrl: './proveedor.component.html',
-  styleUrls: ['./proveedor.component.css'],
+  selector: 'app-categoria',
+  templateUrl: './categoria.component.html',
+  styleUrls: ['./categoria.component.css'],
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, MatInputModule, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, MatDividerModule, MatCardModule, MatFormFieldModule],
 })
-export class ProveedorComponent {
+
+
+export class CategoriaComponent {
   filtro: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  displayedColumns: string[] = ['id', 'marca', /* 'producto', */ 'proveedor', 'contacto'];
-  dataSource: MatTableDataSource<Proveedor>;
-  inventario: Inventario[] = [];
-  provedor: Proveedor[] = [];
+  displayedColumns: string[] = ['id', 'nombre'];
+  dataSource: MatTableDataSource<Categoria>;//4546
+  categoria: Categoria[] = [];
   posicion: number;
+  txt_categorias: String;
 
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog,
-    private inventarioServices: InventarioServicesService,
     // @Inject(MAT_DIALOG_DATA) public data: any,
     //public dialogRef: MatDialogRef<ModalInventarioComponent>,
     private _snackBar: MatSnackBar,
-    private proveedorServices: ProveedorService
+    private categoriaServices: CategoriaService
   ) {
-    this.provedor = [];
+    this.categoria = [];
   }
 
   ngOnInit(): void {
-    this.provedor = [];
+    this.categoria = [];
     this.infoProveedores();
   }
 
   ngOnDestroy(): void {
     this.dataSource.disconnect();
   }
+
   infoProveedores() {
-    this.proveedorServices.getAllProveedor().subscribe(data => {
-      this.provedor = data;
-      this.dataSource = new MatTableDataSource<Proveedor>(this.provedor);
+    this.categoriaServices.obtenerCategoria().subscribe(
+      (data: any) => {
+        this.categoria = data;
+        this.dataSource = new MatTableDataSource<Categoria>(this.categoria);
+        this.dataSource.paginator = this.paginator;
+      }, (error: any) => {
+        console.log(error);
+      }
+    );
+    this.categoriaServices.obtenerCategoria().subscribe(data => {
+      this.categoria = data;
+      this.dataSource = new MatTableDataSource<Categoria>(this.categoria);
       this.dataSource.paginator = this.paginator;
     },
       (error: any) => {
@@ -99,28 +107,29 @@ export class ProveedorComponent {
 
   obtenerElementoPosicion(posicion: number) {
     this.posicion = posicion;
-    const datosActuales = this.provedor;
+    const datosActuales = this.categoria;
     const elementoEliminado = datosActuales[posicion];
     console.log(posicion);
     this.openDialogSearchProducts(elementoEliminado, 'update');
   }
 
   openDialogSearchProducts(elemento: any, action: string) {
-    const dialogRef = this.dialog.open(ModalProveedorComponent, {
+    const dialogRef = this.dialog.open(ModalCategoriaComponent, {
       width: "600px",
       height: "auto",
       disableClose: true,
       data: {
         action: action,
         data: elemento,
-        dataProveedor: this.provedor
+        dataProveedor: this.categoria
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.action === 'save') {
+        console.log(result.data);
         // Acción para guardar
-        this.proveedorServices.saveProveedor(result.data)
+        this.categoriaServices.guardarCategoria(result.data)
           .subscribe(data => {
             this.openSnackBar(JSON.stringify(data));
             this.infoProveedores();
@@ -135,7 +144,7 @@ export class ProveedorComponent {
           );
       } else if (result && result.action === 'update') {
         this.posicion = elemento.id;
-        this.proveedorServices.updateProveedor(this.posicion, result.data)
+        this.categoriaServices.actualizarCategoria(this.posicion, result.data)
           .subscribe(data => {
             this.openSnackBar(JSON.stringify(data));
             this.infoProveedores();
@@ -150,7 +159,7 @@ export class ProveedorComponent {
       } else if (result && result.action === 'delete') {
         this.posicion = elemento.id;
 
-        this.proveedorServices.inactivarProveedor(this.posicion)
+        this.categoriaServices.inactivarCategoria(this.posicion)
           .subscribe(data => {
             this.openSnackBar(JSON.stringify(data));
             this.infoProveedores();
